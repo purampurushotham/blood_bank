@@ -1,0 +1,153 @@
+<apex:page docType="html-5.0" applyHtmlTag="false" showHeader="false" sidebar="false" standardStylesheets="false" controller="TimeSheet_v3" showQuickActionVfHeader="false">
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"></meta>
+    <!--<link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="script"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" />-->
+  <body>
+  <div id="app">
+    <donor-app></donor-app>
+  </div>
+  <script id="donor-app-template" type="text/x-template">
+    <div>
+      <br>
+      <br>
+      <br>
+
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/"><h1 class="brand">Blood Bank</h1></a>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li><router-link to="search" class="nav-link" activeClass="active" exact>Search</router-link></li>
+              <li><router-link to="register" class="nav-link" activeClass="active" exact>Register</router-link></li>
+              <li><router-link to="posts" class="nav-link" activeClass="active" exact>Post A Request</router-link></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li v-if = 'logged'><router-link to="/" class="nav-link" activeClass="active" @click.native="logout"exact>Logout</router-link></li>
+              <li v-if = '!logged'><router-link to="/login" class="login nav-link" activeClass="active" exact>Login</router-link></li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+      <div>
+        <router-view></router-view>
+      </div>
+    </div>
+  </script>
+  <script id="home-template" type="text/x-template">
+    <div>
+      <h1 class="hello">
+        Welcome to Blood Donor Application
+      </h1>
+    </div>
+  </script>
+  <script id="register-template" type="text/x-template">
+    <div class = "container">
+      <hr />
+      <div class="row card">
+        <div class="col-md-12 card-block">
+          <h1 class="card-title"> Register Donor </h1>
+          <hr />
+          <form id="myForm" @submit.prevent">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group row" :class="{error: validation.hasError('donor.firstName')}">
+                  <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+                  <div class="content col-sm-10"><input type="text" class="form-control" placeholder="First Name" v-model="donor.firstName"/></div>
+                  <div class="message text-danger">{{ validation.firstError('donor.firstName') }}</div>
+                </div>
+                <div class="form-group row" :class="{error: validation.hasError('donor.occupation')}">
+                  <label for="occupation" class="col-sm-2 col-form-label col-form-label-lg">Occupation</label>
+                  <div class="content col-sm-10"><input type="text" class="form-control" placeholder="Occupation" v-model="donor.occupation"/></div>
+                  <div class="message text-danger">{{ validation.firstError('donor.occupation') }}</div>
+                </div>
+                <div class="form-group row" :class="{error: validation.hasError('donor.bloodGroup')}">
+                  <label for="bloodGroup" class="col-sm-2 col-form-label col-form-label-lg">Blood Group</label>
+                  <div class="content col-sm-10"><input type="text" class="form-control" placeholder="Blood Group" v-model="donor.bloodGroup"/></div>
+                  <div class="message text-danger">{{ validation.firstError('donor.bloodGroup') }}</div>
+                </div>
+                <div class="form-group row" :class="{error: validation.hasError('donor.martial_status')}">
+                  <label class="form-check-label col-sm-2 col-form-label-lg">Martial Status</label>
+                  <div class="col-sm-5 content">
+                    <input type="radio" name="options" id="married" autocomplete="off" v-model="donor.martial_status" value= "married"> Married
+                    <input type="radio" name="options" id="unmarried" autocomplete="off" v-model="donor.martial_status" value= "unmarried"> Un Married
+                  </div>
+                  <div class="message text-danger">{{ validation.firstError('donor.martial_status') }}</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group row" :class="{error: validation.hasError('donor.lastName')}">
+                  <label for="lastName" class="col-sm-2 col-form-label col-form-label-lg">Last Name</label>
+                  <div class="content col-sm-10"><input type="text" class="form-control" placeholder="Last Name" v-model="donor.lastName"/></div>
+                  <div class="message text-danger">{{ validation.firstError('donor.lastName') }}</div>
+                </div>
+                <div class="form-group row" :class="{error: validation.hasError('donor.dob')}">
+                  <label for="dob" class="col-sm-2 col-form-label col-form-label-lg">Date Of Birth</label>
+                  <div class="col-sm-10 content">
+                    <datepicker input-class="form-control date-picker" format="d MMM yyyy"placeholder="Date of Birth" v-model="donor.dob">
+                    </datepicker>
+                  </div>
+                  <div class="message text-danger">{{ validation.firstError('donor.dob') }}</div>
+                </div>
+                <div class="form-group row" :class="{error: validation.hasError('donor.city')}">
+                  <label for="city" class="col-sm-2 col-form-label col-form-label-lg">City</label>
+                  <div class="content col-sm-10"><input type="text" class="form-control" placeholder="City" v-model="donor.city"/></div>
+                  <div class="message text-danger">{{ validation.firstError('donor.city') }}</div>
+                </div>
+                <hr />
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <h3>Personal Contact Details</h3>
+                  <hr />
+                  <div class="form-group row" :class="{error: validation.hasError('donor.p_email')}">
+                    <label for="email" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
+                    <div class="content col-sm-10"><input type="email" class="form-control" placeholder="Email" v-model="donor.p_email"/></div>
+                    <div class="message text-danger">{{ validation.firstError('donor.p_email') }}</div>
+                  </div>
+                  <div class="form-group row" :class="{error: validation.hasError('donor.p_phone')}">
+                    <label for="phone" class="col-sm-2 col-form-label col-form-label-lg">Phone</label>
+                    <div class="content col-sm-10"><input type="text" class="form-control" placeholder="Phone" v-model="donor.p_phone"/></div>
+                    <div class="message text-danger">{{ validation.firstError('donor.p_phone') }}</div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <h3 class="card-title">Emergency Contact Details</h3>
+                  <hr />
+                  <div class="form-group row" :class="{error: validation.hasError('donor.e_email')}">
+                    <label for="email" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
+                    <div class="content col-sm-10"><input type="email" class="form-control" placeholder="Email" v-model="donor.e_email"/></div>
+                    <div class="message text-danger">{{ validation.firstError('donor.e_email') }}</div>
+                  </div>
+                  <div class="form-group row" :class="{error: validation.hasError('donor.e_phone')}">
+                    <label for="phone" class="col-sm-2 col-form-label col-form-label-lg">Phone</label>
+                    <div class="content col-sm-10"><input type="text" class="form-control" placeholder="Phone" v-model="donor.e_phone"/></div>
+                    <div class="message text-danger">{{ validation.firstError('donor.e_phone') }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div>
+              <button type="submit"class="btn btn-success btn-lg">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </script>
+  <script>
+    window.basePath = 'BloodDonor/';
+  </script>
+  <!-- built files will be auto injected -->
+  </body>
+  </html>
+</apex:page>
