@@ -54,83 +54,89 @@
         <div class="col-md-12 card-block">
           <h1 class="card-title"> Register Donor </h1>
           <hr />
-          <form id="myForm" @submit.prevent">
+          <form id="myForm" @submit="donorRegistration()">
             <div class="row">
               <div class="col-md-6">
-                <div class="form-group row" :class="{error: validation.hasError('donor.firstName')}">
-                  <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
-                  <div class="content col-sm-10"><input type="text" class="form-control" placeholder="First Name" v-model="donor.firstName"/></div>
-                  <div class="message text-danger">{{ validation.firstError('donor.firstName') }}</div>
+                <div class="form-group row">
+                  <label for="firstName" class="col-sm-2 col-form-label col-form-label-lg">First Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-lg" id="firstName" placeholder="First Name" v-model="donor.firstName">
+                  </div>
                 </div>
-                <div class="form-group row" :class="{error: validation.hasError('donor.occupation')}">
+                <div class="form-group row">
                   <label for="occupation" class="col-sm-2 col-form-label col-form-label-lg">Occupation</label>
-                  <div class="content col-sm-10"><input type="text" class="form-control" placeholder="Occupation" v-model="donor.occupation"/></div>
-                  <div class="message text-danger">{{ validation.firstError('donor.occupation') }}</div>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-lg" id="occupation" placeholder="occupation" v-model="donor.occupation">
+                  </div>
                 </div>
-                <div class="form-group row" :class="{error: validation.hasError('donor.bloodGroup')}">
+                <div class="form-group row">
                   <label for="bloodGroup" class="col-sm-2 col-form-label col-form-label-lg">Blood Group</label>
-                  <div class="content col-sm-10"><input type="text" class="form-control" placeholder="Blood Group" v-model="donor.bloodGroup"/></div>
-                  <div class="message text-danger">{{ validation.firstError('donor.bloodGroup') }}</div>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-lg" id="bloodGroup" placeholder="Blood Group" v-model="donor.bloodGroup">
+                  </div>
                 </div>
-                <div class="form-group row" :class="{error: validation.hasError('donor.martial_status')}">
+                <div class="form-group row">
                   <label class="form-check-label col-sm-2 col-form-label-lg">Martial Status</label>
-                  <div class="col-sm-5 content">
+                  <div class="col-sm-5">
                     <input type="radio" name="options" id="married" autocomplete="off" v-model="donor.martial_status" value= "married"> Married
                     <input type="radio" name="options" id="unmarried" autocomplete="off" v-model="donor.martial_status" value= "unmarried"> Un Married
                   </div>
-                  <div class="message text-danger">{{ validation.firstError('donor.martial_status') }}</div>
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group row" :class="{error: validation.hasError('donor.lastName')}">
+                <div class="form-group row">
                   <label for="lastName" class="col-sm-2 col-form-label col-form-label-lg">Last Name</label>
-                  <div class="content col-sm-10"><input type="text" class="form-control" placeholder="Last Name" v-model="donor.lastName"/></div>
-                  <div class="message text-danger">{{ validation.firstError('donor.lastName') }}</div>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-lg" id="lastName" placeholder="Last Name" v-model="donor.lastName">
+                  </div>
                 </div>
-                <div class="form-group row" :class="{error: validation.hasError('donor.dob')}">
+                <div class="form-group dd row">
                   <label for="dob" class="col-sm-2 col-form-label col-form-label-lg">Date Of Birth</label>
-                  <div class="col-sm-10 content">
-                    <datepicker input-class="form-control date-picker" format="d MMM yyyy"placeholder="Date of Birth" v-model="donor.dob">
-                    </datepicker>
+                  <div class="col-sm-10">
+                    <datepicker class="datepicker" format="d MMM yyyy"placeholder="Date of Birth" v-model="donor.dob"></datepicker>
                   </div>
-                  <div class="message text-danger">{{ validation.firstError('donor.dob') }}</div>
                 </div>
-                <div class="form-group row" :class="{error: validation.hasError('donor.city')}">
+                <div class="form-group row">
                   <label for="city" class="col-sm-2 col-form-label col-form-label-lg">City</label>
-                  <div class="content col-sm-10"><input type="text" class="form-control" placeholder="City" v-model="donor.city"/></div>
-                  <div class="message text-danger">{{ validation.firstError('donor.city') }}</div>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control form-control-lg" id="city" placeholder="City" v-model="donor.city">
+                  </div>
                 </div>
-                <hr />
               </div>
-            </div>
-            <div class="col-md-12">
-              <div class="row">
-                <div class="col-md-6">
-                  <h3>Personal Contact Details</h3>
-                  <hr />
-                  <div class="form-group row" :class="{error: validation.hasError('donor.p_email')}">
-                    <label for="email" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
-                    <div class="content col-sm-10"><input type="email" class="form-control" placeholder="Email" v-model="donor.p_email"/></div>
-                    <div class="message text-danger">{{ validation.firstError('donor.p_email') }}</div>
+              <hr />
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h3>Personal Contact Details</h3>
+                    <hr />
+                    <div class="form-group row">
+                      <label for="email" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
+                      <div class="col-sm-10">
+                        <input type="email" class="form-control form-control-lg" id="p_email" placeholder="email" v-model="donor.p_email">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="phone" class="col-sm-2 col-form-label col-form-label-lg">Phone</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control form-control-lg" id="p_phone" placeholder="phone" v-model="donor.p_phone">
+                      </div>
+                    </div>
                   </div>
-                  <div class="form-group row" :class="{error: validation.hasError('donor.p_phone')}">
-                    <label for="phone" class="col-sm-2 col-form-label col-form-label-lg">Phone</label>
-                    <div class="content col-sm-10"><input type="text" class="form-control" placeholder="Phone" v-model="donor.p_phone"/></div>
-                    <div class="message text-danger">{{ validation.firstError('donor.p_phone') }}</div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <h3 class="card-title">Emergency Contact Details</h3>
-                  <hr />
-                  <div class="form-group row" :class="{error: validation.hasError('donor.e_email')}">
-                    <label for="email" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
-                    <div class="content col-sm-10"><input type="email" class="form-control" placeholder="Email" v-model="donor.e_email"/></div>
-                    <div class="message text-danger">{{ validation.firstError('donor.e_email') }}</div>
-                  </div>
-                  <div class="form-group row" :class="{error: validation.hasError('donor.e_phone')}">
-                    <label for="phone" class="col-sm-2 col-form-label col-form-label-lg">Phone</label>
-                    <div class="content col-sm-10"><input type="text" class="form-control" placeholder="Phone" v-model="donor.e_phone"/></div>
-                    <div class="message text-danger">{{ validation.firstError('donor.e_phone') }}</div>
+                  <div class="col-md-6">
+                    <h3 class="card-title">Emergency Contact Details</h3>
+                    <hr />
+                    <div class="form-group row">
+                      <label for="email" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
+                      <div class="col-sm-10">
+                        <input type="email" class="form-control form-control-lg" id="e_email" placeholder="email" v-model="donor.e_email">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="phone" class="col-sm-2 col-form-label col-form-label-lg">Phone</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control form-control-lg" id="e_phone" placeholder="phone" v-model="donor.e_phone">
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -149,5 +155,8 @@
   </script>
   <!-- built files will be auto injected -->
   </body>
+  <script type="text/javascript" src="./src/actions.js"></script>
+  <script type="text/javascript" src="./src/common.js"></script>
+  <script type="text/javascript" src="./src/data.js"></script>
   </html>
 </apex:page>

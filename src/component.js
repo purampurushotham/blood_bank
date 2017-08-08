@@ -3,12 +3,11 @@ import VueRouter from 'vue-router'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '../styles/main.css'
-import SimpleVueValidation from 'simple-vue-validator'
-Vue.use(SimpleVueValidation)
+import actions from '../src/actions'
+import './data'
 Vue.use(VueRouter)
 window.bb = {}
 // import { EventBus } from './components/eventBus'
-const Validator = SimpleVueValidation.Validator
 window.bb.routes = [
   {
     path: '/register',
@@ -44,40 +43,8 @@ window.bb.routes = [
         }
       },
       methods: {
-        validators: {
-          'donor.firstName': function (value) {
-            return Validator.value(value).required('First Name is required')
-          },
-          'donor.lastName': function (value) {
-            return Validator.value(value).required('Last Name is required')
-          },
-          'donor.occupation': function (value) {
-            return Validator.value(value).required('Occupation is required')
-          },
-          'donor.bloodGroup': function (value) {
-            return Validator.value(value).required('Blood Group is required')
-          },
-          'donor.city': function (value) {
-            return Validator.value(value).required('City is required')
-          },
-          'donor.dob': function (value) {
-            return Validator.value(value).required('Date Of Birth is required')
-          },
-          'donor.martial_status': function (value) {
-            return Validator.value(value).required('Martial Status is required')
-          },
-          'donor.p_email': function (value) {
-            return Validator.value(value).required('Email is required').email()
-          },
-          'donor.p_phone': function (value) {
-            return Validator.value(value).required('Phone is required').digit('only digits').length(10)
-          },
-          'donor.e_email': function (value) {
-            return Validator.value(value).required('Email is required').email()
-          },
-          'donor.e_phone': function (value) {
-            return Validator.value(value).required('Phone is required').digit('only digits').length(10)
-          }
+        donorRegistration () {
+          console.log('this')
         }
       }
     }
@@ -95,7 +62,6 @@ window.bb.routes = [
 Vue.component('donor-app', {
   template: '#donor-app-template',
   created () {
-    console.log('')
     console.log(window.bb)
     console.log('header')
     /*   EventBus.on('logged', (logs) => {
@@ -131,7 +97,10 @@ window.blood_donor = new Vue({
   router: router,
   mounted () {
     console.log('mounted')
-    console.log(window.bb.routes)
+    console.log(window)
+    actions.populateDonors(function () {
+      console.log('populate Donors')
+    })
     console.log('mounted')
     // vm.$router.replace({path: window.bb.basePath + '/home'})
   },
