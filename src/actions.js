@@ -12,7 +12,7 @@ let actions = {
       console.log(result)
       console.log('populate User infor')
       actions.responseInterceptor(result, event, function () {
-        common.setValueToStore(window.bb, 'donors', result)
+        common.setValueToStore('donors', result)
         afterPopulate()
       })
     })

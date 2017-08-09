@@ -107,7 +107,7 @@ Vue.component('donor-registration', {
   },
   methods: {
     donorRegistration () {
-      common.setValueToStore(window.bb, 'donors', this.donor)
+      common.setValueToStore('donors', this.donor)
     }
   }
 })
@@ -120,7 +120,7 @@ Vue.component('search-donor', {
   created () {
     console.log('created search')
     console.log(window.bb.donors)
-    common.setSearchOptions(window.bb.donors, window.bb.blood_groups, window.bb.cities)
+    common.setSearchOptions(common.getter('donors'), window.bb.blood_groups, window.bb.cities)
     console.log('created search')
   },
   data () {
@@ -149,23 +149,65 @@ Vue.component('search-donor', {
           path: 'city'
         }
       ],
-      tableData: window.bb.donors
+      tableData: common.getter('donors'),
+      show: false,
+      rowData: {}
     }
   },
   methods: {
     searchDonor () {
       console.log('search donor')
+      this.tableData = common.searchDonor(common.getter('donors'), this.bloodGroup, this.city)
     },
     rowClick (row) {
-      console.log(row)
+      this.show = true
+      this.rowData = row
     },
     reset () {
       this.bloodGroup = ''
       this.city = ''
+    },
+    showDetails (obj) {
+      this.show = obj.show
+      common.checkRecentTimeOut(data)
+
     }
   }
 })
-
+Vue.component('show-modal', {
+  template: '#show-modal-template',
+  props: ['show', 'data'],
+  created () {
+    console.log('created in show modal')
+    console.log('created in show modal')
+  },
+  data () {
+    return { bb: window.bb }
+  },
+  methods: {
+    savePost () {
+      this.show = false
+      let newData = common.updateRecentDonor(this.data)
+      console.log('new data')
+      console.log(newData)
+      console.log('new data')
+      this.$emit('show-details', {show: this.show, recentDonor: newData})
+    },
+    close () {
+      this.show = false
+      this.$emit('show-details', {show: this.show, data: this.data})
+    },
+    recentDonor: function (event) {
+      console.log('recent donior')
+      console.log(event.checked)
+      if (event.checked) {
+        console.log(this.data)
+        this.data.recentDonor.exists = true
+      }
+      console.log('recent donior')
+    }
+  }
+})
 let router = new VueRouter({
   mode: 'history',
   routes: window.bb.routes
@@ -179,11 +221,9 @@ window.blood_donor = new Vue({
       console.log('populate Donors')
     })
     console.log('mounted')
-    // vm.$router.replace({path: window.bb.basePath + '/home'})
   },
   data () {
     return {
-      bb: window.bb
     }
   }
 }).$mount('#app')

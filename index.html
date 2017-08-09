@@ -162,34 +162,33 @@
   </script>
   <script id="search-donor-template" type="text/x-template">
     <div class = "container">
-      {{blood_groups}}
       <hr />
       <div class="row card">
         <div class="col-md-12 card-block">
           <h1 class="card-title"> Search Donor </h1>
-          <form id="search  From">
+          <form id="search" @submit.prevent = "searchDonor()">
             <div class="row">
               <div class="col-md-3"></div>
               <div class="col-md-6 ">
                 <div class="form-group row">
                   <label for="bloodGroup" class="col-sm-2 col-form-label col-form-label-lg">Blood Group</label>
                   <div class="col-sm-10">
-                      <multiselect v-model="bloodGroup" :options="blood_groups"
-                    :options-limit = "2"
-                    :limit="1"></multiselect>
-                      </div>
+                    <multiselect v-model="bloodGroup" :options="blood_groups"
+                                 :options-limit = "2"
+                                 :limit="1"></multiselect>
+                  </div>
                 </div>
                 <div class="form-group row">
                   <label for="city" class="col-sm-2 col-form-label col-form-label-lg">City</label>
                   <div class="col-sm-10">
                     <multiselect v-model="city" :options="cities"
-                  :options-limit = "2"
-                  :limit="1"></multiselect>
+                                 :options-limit = "2"
+                                 :limit="1"></multiselect>
                   </div>
                 </div>
               </div>
             </div>
-            <button  @click="searchDonor()" class="btn btn-success">Search</button>
+            <button type = "submit" class="btn btn-success">Search</button>
             <button @click="reset" class="btn btn-warning">Reset</button>
           </form>
         </div>
@@ -203,9 +202,43 @@
               @clickRow="rowClick">
         </grid>
       </div>
-      <!--<div v-if="show">
-        &lt;!&ndash; <show-modal :show.sync="show" :data="rowData" v-on:show-details="showDetails"></show-modal>&ndash;&gt;
-      </div>-->
+      <div v-if="show">
+        <show-modal :show.sync="show" :data="rowData" v-on:show-details="showDetails"></show-modal>
+      </div>
+    </div>
+  </script>
+  <script id="show-modal-template" type="text/x-template">
+    <div class="modal-mask" @click="close" v-show="show" transition="modal">
+      <div class="modal-container"  @click.stop>
+        <div class="modal-header">
+          <h3>Donor Contact Information</h3>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-6">
+                <h3>Personal Details</h3>
+                <p>Email : <span>{{data.p_email}}</span></p>
+                <p>Phone: <span>{{data.p_phone}}</span></p>
+                <h3>Emergency Details</h3>
+                <p>Email : <span>{{data.e_email}}</span></p>
+                <p>Phone: <span>{{data.e_phone}}</span></p>
+                 <div class="checkbox">
+                   <label>
+                     <input type="checkbox" v-model="data.recentDonor.exists" v-on:change="recentDonor($event.target)"> Mark as Recent Donor
+                   </label>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button class="btn btn-primary"  @click="savePost()">Ok</button>
+          <button class="btn btn-danger"  @click="close()">cancel</button>
+        </div>
+      </div>
     </div>
   </script>
   <script>
