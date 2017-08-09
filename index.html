@@ -48,13 +48,18 @@
     </div>
   </script>
   <script id="register-template" type="text/x-template">
+    <div>
+      <donor-registration></donor-registration>
+    </div>
+  </script>
+  <script id="donor-registration-template" type="text/x-template">
     <div class = "container">
       <hr />
       <div class="row card">
         <div class="col-md-12 card-block">
           <h1 class="card-title"> Register Donor </h1>
           <hr />
-          <form id="myForm" @submit="donorRegistration()">
+          <form id="myForm" @submit.prevent="donorRegistration()">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group row">
@@ -148,6 +153,59 @@
           </form>
         </div>
       </div>
+    </div>
+  </script>
+  <script id="search-template" type="text/x-template">
+    <div>
+      <search-donor></search-donor>
+    </div>
+  </script>
+  <script id="search-donor-template" type="text/x-template">
+    <div class = "container">
+      {{blood_groups}}
+      <hr />
+      <div class="row card">
+        <div class="col-md-12 card-block">
+          <h1 class="card-title"> Search Donor </h1>
+          <form id="search  From">
+            <div class="row">
+              <div class="col-md-3"></div>
+              <div class="col-md-6 ">
+                <div class="form-group row">
+                  <label for="bloodGroup" class="col-sm-2 col-form-label col-form-label-lg">Blood Group</label>
+                  <div class="col-sm-10">
+                      <multiselect v-model="bloodGroup" :options="blood_groups"
+                    :options-limit = "2"
+                    :limit="1"></multiselect>
+                      </div>
+                </div>
+                <div class="form-group row">
+                  <label for="city" class="col-sm-2 col-form-label col-form-label-lg">City</label>
+                  <div class="col-sm-10">
+                    <multiselect v-model="city" :options="cities"
+                  :options-limit = "2"
+                  :limit="1"></multiselect>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button  @click="searchDonor()" class="btn btn-success">Search</button>
+            <button @click="reset" class="btn btn-warning">Reset</button>
+          </form>
+        </div>
+      </div>
+      <hr />
+      <div>
+        <grid class="grid"
+              :data="tableData"
+              :columns="headers"
+              :rowsPerPage="3"
+              @clickRow="rowClick">
+        </grid>
+      </div>
+      <!--<div v-if="show">
+        &lt;!&ndash; <show-modal :show.sync="show" :data="rowData" v-on:show-details="showDetails"></show-modal>&ndash;&gt;
+      </div>-->
     </div>
   </script>
   <script>
